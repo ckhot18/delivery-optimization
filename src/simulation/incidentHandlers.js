@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Incident Handlers - Phase 4
  *
  * Authoritative incident response functions.
@@ -12,7 +12,7 @@
 
 import { MAP_DATA } from "../data/simulationData.js";
 import { findNearestNode, buildRouteForStops, graph } from "../utils/simulationEngine.js";
-import { globalReOptimize, globalOptimize } from "../utils/fleetOptimizer.js";
+import { globalReOptimize, globalOptimize, formatETA } from "../utils/fleetOptimizer.js";
 import { validateRoute, rebuildRoute, evaluateReroute } from "../utils/routeValidator.js";
 
 function ts() {
@@ -204,20 +204,66 @@ export function handleUnblockRoad(simulation, roadId) {
  * Disables vehicle, returns all unfinished deliveries to pool.
  * Runs full global re-optimization across remaining vehicles. (Edge Case C)
  */
-export function handleVehicleBreakdown(simulation, targetVehicleId) {
+export function handleVehicleBreakdown(simulation, targetVehicleId, severity = "MAJOR") {
   const vehicleToDisable = simulation.vehicles.find(
     (v) => targetVehicleId
       ? v.id === targetVehicleId
-      : (v.status !== "DISABLED" && v.status !== "COMPLETE")
+      : (v.status !== "DISABLED" && v.status !== "COMPLETE" && v.status !== "DELAYED")
   );
 
   if (!vehicleToDisable) return simulation;
 
+  // ---- MINOR BREAKDOWN ----
+  if (severity === "MINOR") {
+    const BREAKDOWN_DURATION = 6; // simulated seconds (represents ~10 min real)
+    const breakdownStartTime = simulation.elapsedSeconds;
+
+    const logsToAdd = [
+      log(`${vehicleToDisable.id} minor breakdown`, "amber"),
+      log(`Estimated recovery: ${formatETA(BREAKDOWN_DURATION)}`, "amber"),
+    ];
+
+    // Log ETA updates for each assigned delivery
+    vehicleToDisable.assignedDeliveryIds.forEach((dId) => {
+      const del = simulation.deliveries.find((d) => d.id === dId);
+      let curSec = del?.originalEta || 18;
+      if (vehicleToDisable.remainingLegs && vehicleToDisable.remainingLegs.length > 0) {
+        const legIdx = vehicleToDisable.remainingLegs.findIndex((l) => l.deliveryId === dId);
+        if (legIdx >= 0) {
+          const dist = vehicleToDisable.remainingLegs.slice(0, legIdx + 1).reduce((s, l) => s + (l.distance || 0), 0);
+          curSec = Math.max(1, Math.round(dist / (vehicleToDisable.speed || 60)));
+        }
+      }
+      const newSec = curSec + BREAKDOWN_DURATION;
+      logsToAdd.push(log(`${dId} ETA updated: ${formatETA(curSec)} → ${formatETA(newSec)}`, "amber"));
+    });
+    logsToAdd.push(log("Customer notification sent", "cyan"));
+
+    const nextVehicles = simulation.vehicles.map((v) => {
+      if (v.id !== vehicleToDisable.id) return v;
+      return {
+        ...v,
+        status: "DELAYED",
+        delayRemaining: BREAKDOWN_DURATION,
+        breakdownStartTime,
+        currentDecision: `Minor breakdown – repairing (${BREAKDOWN_DURATION}s)`,
+        noRouteReason: null,
+      };
+    });
+
+    return {
+      ...simulation,
+      vehicles: nextVehicles,
+      logs: [...logsToAdd, ...simulation.logs].slice(0, 50),
+    };
+  }
+
+  // ---- MAJOR BREAKDOWN ----
   const returnedIds = [...vehicleToDisable.assignedDeliveryIds];
   const blockedSet = new Set(simulation.blockedRoadIds);
 
   const logsToAdd = [
-    log(`${vehicleToDisable.id} BREAKDOWN`, "red"),
+    log(`${vehicleToDisable.id} MAJOR BREAKDOWN`, "red"),
     log(`${returnedIds.length} deliveries returned to pool`, "amber"),
     log("GLOBAL REOPTIMIZATION", "cyan"),
   ];

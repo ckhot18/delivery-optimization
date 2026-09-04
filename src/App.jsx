@@ -110,8 +110,8 @@ export default function App() {
     });
   }
 
-  function onVehicleBreakdownAction(vehicleId) {
-    setSimulation((current) => handleVehicleBreakdown(current, vehicleId));
+  function onVehicleBreakdownAction(vehicleId, severity = "MAJOR") {
+    setSimulation((current) => handleVehicleBreakdown(current, vehicleId, severity));
   }
 
   function onEmergencyDeliveryAction(locationId) {

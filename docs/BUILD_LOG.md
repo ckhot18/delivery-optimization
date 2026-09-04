@@ -1,4 +1,4 @@
-﻿# Emergency Logistics Application - Build Log
+# Emergency Logistics Application - Build Log
 
 ## Phase 4: Dynamic Constraint-Aware Fleet Optimizer
 **Status:** Completed
@@ -28,4 +28,30 @@ This ensures critical deliveries get immediate attention and overloaded routes a
 - **Edge Case B (Unreachable Destination):** Vehicle switches to WAITING, delivery marked UNREACHABLE.
 - **Edge Case C (Breakdown Redistribution):** Global optimizer successfully reallocates orders.
 - **Edge Case D (SOS Delivery Injection):** Cost-function immediately pulls a vehicle from existing routes for CRITICAL priority.
-- **Edge Case E (Oscillation Control):** 5% improvement threshold prevents route flickering.
+- [x] Edge Case E (Oscillation Control): 5% improvement threshold prevents route flickering.
+
+## Phase 5: Minor Breakdown & High-Fidelity Map Visuals
+**Status:** Completed
+
+### 1. Minor Breakdown Mechanics & Live Countdown
+- **Behavior:** Vehicles pause for a 6-second repair countdown (`⏱ 6s`), holding their current route and assigned cargo.
+- **Dynamic ETA:** All assigned deliveries have ETAs increased by the repair delay during the breakdown, returning to normal progression after automatic recovery.
+- **Dispatcher Logging:** Emits structured logs:
+  - `[HH:MM:SS] V-02 minor breakdown`
+  - `[HH:MM:SS] Estimated recovery: 00:06`
+  - `[HH:MM:SS] DEL-01 ETA updated: 00:15 → 00:21`
+  - `[HH:MM:SS] Customer notification sent`
+  - `[HH:MM:SS] V-02 recovered`
+  - `[HH:MM:SS] Route resumed`
+
+### 2. Rich Delivery Point Hover Tooltip (`DeliveryTooltip.jsx`)
+- Hovering any delivery location displays a dedicated card:
+  - Delivery ID, priority badge, order package description, recipient, weight.
+  - Assigned vehicle and courier name.
+  - Matrix showing Original ETA, Live Updated ETA, and breakdown delay.
+  - Live customer notification status (e.g. `"Vehicle delayed due to vehicle issue. Expected arrival in 00:21."`).
+
+### 3. Clean, Cohesive City Map Visuals (`LogisticsMap.jsx`)
+- **Stripe Removal:** Removed all white and yellow road stripes, dashed lane dividers, roundabout dash circles, bridge center lines, and highway overpass stripes. Roads now render as clean, modern dark asphalt beds with maximum route line contrast.
+- **City Blocks & Landmarks:** Added subtle district zoning tints (Northwest Health, Northeast Tech/Market, Southwest Logistics, Southeast Maritime), architectural building footprints with rooftop details, lush riverside tree belts, and landmarks (City Hospital, Market Plaza, West Terminal, East Docks).
+- **Functionality Preserved:** Full road clicking/toggling, vehicle inspection, delivery hovers, and simulation mechanics remain fully interactive.

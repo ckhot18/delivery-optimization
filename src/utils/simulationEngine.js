@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Simulation Engine - Phase 4
  *
  * Authoritative source of truth for:
@@ -227,9 +227,25 @@ export function createInitialSimulation() {
     })),
   ];
 
+  const deliveriesWithOriginalEta = assignedDeliveries.map((delivery) => {
+    const v = routedVehicles.find((vh) => vh.id === delivery.assignedVehicleId);
+    let orig = 20;
+    if (v && v.remainingLegs) {
+      const idx = v.remainingLegs.findIndex((l) => l.deliveryId === delivery.id);
+      if (idx >= 0) {
+        const dist = v.remainingLegs.slice(0, idx + 1).reduce((s, l) => s + (l.distance || 0), 0);
+        orig = Math.max(5, Math.round(dist / (v.speed || 60)));
+      }
+    }
+    return {
+      ...delivery,
+      originalEta: orig,
+    };
+  });
+
   return {
     vehicles: routedVehicles,
-    deliveries: assignedDeliveries,
+    deliveries: deliveriesWithOriginalEta,
     blockedRoadIds: [],
     running: false,
     elapsedSeconds: 0,
@@ -266,6 +282,36 @@ export function stepSimulation(current, deltaSeconds = 0.12) {
     // Stopped states
     if (vehicle.status === "DISABLED" || vehicle.status === "COMPLETE" || vehicle.status === "WAITING") {
       return vehicle;
+    }
+
+    // DELAYED countdown (minor breakdown)
+    if (vehicle.status === "DELAYED") {
+      const newDelay = Math.max(0, (vehicle.delayRemaining || 0) - effectiveDelta);
+      if (newDelay <= 0) {
+        newlyGeneratedLogs.push({
+          id: `RECOVER-${vehicle.id}-${Date.now()}`,
+          text: `${ts()} ${vehicle.id} recovered`,
+          tone: "emerald",
+        });
+        newlyGeneratedLogs.push({
+          id: `RESUME-${vehicle.id}-${Date.now()}`,
+          text: `${ts()} Route resumed`,
+          tone: "cyan",
+        });
+        return {
+          ...vehicle,
+          status: "MOVING",
+          delayRemaining: 0,
+          breakdownStartTime: null,
+          currentDecision: "Resuming route after minor breakdown",
+          noRouteReason: null,
+        };
+      }
+      return {
+        ...vehicle,
+        delayRemaining: newDelay,
+        currentDecision: `Minor breakdown – repairing (${Math.ceil(newDelay)}s remaining)`,
+      };
     }
 
     // No legs remaining — check if done or needs route
@@ -409,6 +455,9 @@ export function stepSimulation(current, deltaSeconds = 0.12) {
     const assignedV = nextVehicles.find((v) => v.id === delivery.assignedVehicleId);
     if (!assignedV || assignedV.status === "DISABLED") {
       return { ...delivery, status: "QUEUED" };
+    }
+    if (assignedV.status === "DELAYED") {
+      return { ...delivery, status: "DELAYED" };
     }
     return {
       ...delivery,

@@ -172,7 +172,9 @@ export function globalReOptimize(activeVehicles, pendingDeliveries, blockedSet =
 export function computeVehicleETA(vehicle) {
   if (!vehicle.remainingLegs || vehicle.remainingLegs.length === 0) return 0;
   const totalDist = vehicle.remainingLegs.reduce((s, l) => s + (l.distance || 0), 0);
-  return Math.round(totalDist / (vehicle.speed || 60));
+  let base = totalDist / (vehicle.speed || 60);
+  if (vehicle.status === "DELAYED") base += (vehicle.delayRemaining || 0);
+  return Math.round(base);
 }
 
 export function formatETA(etaSeconds) {
