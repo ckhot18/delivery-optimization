@@ -3,37 +3,37 @@ import { locationByNodeId } from "../utils/simulationEngine.js";
 
 const PRIORITY_COLORS = {
   CRITICAL: {
-    border: "border-red-500/50",
-    bg: "bg-red-500/10",
-    text: "text-red-400",
-    badge: "bg-red-500/20 text-red-300 border-red-500/40",
-    dot: "#ef4444",
+    border: "border-red-200",
+    bg: "bg-red-50",
+    text: "text-red-700",
+    badge: "bg-red-100 text-red-700 border-red-200",
+    dot: "#dc2626",
   },
   HIGH: {
-    border: "border-amber-500/50",
-    bg: "bg-amber-500/10",
-    text: "text-amber-400",
-    badge: "bg-amber-500/20 text-amber-300 border-amber-500/40",
-    dot: "#f59e0b",
+    border: "border-amber-200",
+    bg: "bg-amber-50",
+    text: "text-amber-700",
+    badge: "bg-amber-100 text-amber-700 border-amber-200",
+    dot: "#d97706",
   },
   NORMAL: {
-    border: "border-cyan-500/50",
-    bg: "bg-cyan-500/10",
-    text: "text-cyan-400",
-    badge: "bg-cyan-500/20 text-cyan-300 border-cyan-500/40",
-    dot: "#06b6d4",
+    border: "border-blue-200",
+    bg: "bg-blue-50",
+    text: "text-blue-700",
+    badge: "bg-blue-100 text-blue-700 border-blue-200",
+    dot: "#2563eb",
   },
 };
 
 function statusBadge(status) {
   const map = {
-    "IN TRANSIT": "bg-emerald-500/20 text-emerald-300 border-emerald-500/40",
-    QUEUED: "bg-slate-500/20 text-slate-300 border-slate-500/40",
-    DELAYED: "bg-orange-500/20 text-orange-300 border-orange-500/40 animate-pulse",
-    COMPLETED: "bg-blue-500/20 text-blue-300 border-blue-500/40",
-    UNREACHABLE: "bg-red-500/20 text-red-300 border-red-500/40",
+    "IN TRANSIT": "bg-emerald-50 text-emerald-700 border-emerald-200",
+    QUEUED: "bg-slate-100 text-slate-700 border-slate-200",
+    DELAYED: "bg-amber-50 text-amber-700 border-amber-200 animate-pulse",
+    COMPLETED: "bg-blue-50 text-blue-700 border-blue-200",
+    UNREACHABLE: "bg-red-50 text-red-700 border-red-200",
   };
-  return map[status] || "bg-slate-500/20 text-slate-300 border-slate-600/40";
+  return map[status] || "bg-slate-100 text-slate-600 border-slate-200";
 }
 
 function computeDeliveryETAInfo(delivery, vehicle) {
@@ -110,7 +110,7 @@ export default function DeliveryTooltip({ delivery, location, vehicle, position 
 
   return (
     <div
-      className="pointer-events-none absolute z-50 w-72 rounded-xl border border-slate-700/80 bg-[#0c1220]/95 shadow-2xl shadow-black/70 backdrop-blur-md transition-opacity duration-150"
+      className="pointer-events-none absolute z-50 w-72 rounded-xl border border-slate-200 bg-white/95 shadow-xl backdrop-blur-md transition-opacity duration-150"
       style={{ left: position.x + 16, top: Math.max(10, position.y - 40) }}
     >
       {/* Top Bar with Priority Glow */}
@@ -119,10 +119,10 @@ export default function DeliveryTooltip({ delivery, location, vehicle, position 
       >
         <div className="flex items-center gap-2">
           <div className="h-2.5 w-2.5 rounded-full animate-pulse" style={{ backgroundColor: pStyle.dot }} />
-          <span className="font-black text-white text-xs tracking-wide font-mono">
+          <span className="font-black text-slate-900 text-xs tracking-wide font-mono">
             {delivery ? delivery.id : location?.id}
           </span>
-          <span className="text-slate-500 text-xs">|</span>
+          <span className="text-slate-300 text-xs">|</span>
           <span className={`rounded border px-1.5 py-0.5 text-[8.5px] font-black uppercase tracking-wider ${pStyle.badge}`}>
             {prio}
           </span>
@@ -136,74 +136,74 @@ export default function DeliveryTooltip({ delivery, location, vehicle, position 
 
       {/* Package & Recipient Header */}
       <div className="px-3.5 pt-2.5 pb-1.5">
-        <h4 className="text-xs font-black text-slate-100 leading-snug">
+        <h4 className="text-xs font-black text-slate-900 leading-snug">
           {delivery ? delivery.title : locLabel}
         </h4>
-        <p className="text-[10px] text-slate-400 font-medium mt-0.5">
+        <p className="text-[10px] text-slate-500 font-medium mt-0.5">
           {delivery?.recipient || locLabel} {delivery?.weight ? `· ${delivery.weight} kg` : ""}
         </p>
       </div>
 
-      <div className="border-t border-slate-800/80 mx-3.5" />
+      <div className="border-t border-slate-100 mx-3.5" />
 
       {/* Logistics Details */}
       <div className="px-3.5 py-2 space-y-1.5">
         <div className="flex justify-between items-center text-[9.5px]">
-          <span className="text-slate-500 uppercase font-bold">Assigned Fleet</span>
-          <span className="font-mono font-bold text-slate-200">
+          <span className="text-slate-400 uppercase font-bold">Assigned Fleet</span>
+          <span className="font-mono font-bold text-slate-800">
             {vehicle ? `${vehicle.id} (${vehicle.type})` : "Unassigned"}
           </span>
         </div>
         {vehicle && (
           <div className="flex justify-between items-center text-[9.5px]">
-            <span className="text-slate-500 uppercase font-bold">Courier</span>
-            <span className="font-mono text-slate-300">{vehicle.driver}</span>
+            <span className="text-slate-400 uppercase font-bold">Courier</span>
+            <span className="font-mono text-slate-700">{vehicle.driver}</span>
           </div>
         )}
         <div className="flex justify-between items-center text-[9.5px]">
-          <span className="text-slate-500 uppercase font-bold">Destination</span>
-          <span className="font-mono text-cyan-300 font-semibold">{locLabel}</span>
+          <span className="text-slate-400 uppercase font-bold">Destination</span>
+          <span className="font-mono text-blue-600 font-semibold">{locLabel}</span>
         </div>
       </div>
 
-      <div className="border-t border-slate-800/80 mx-3.5" />
+      <div className="border-t border-slate-100 mx-3.5" />
 
       {/* ETA & Breakdown Timing Matrix */}
       <div className="px-3.5 py-2">
-        <div className="grid grid-cols-3 gap-1.5 rounded-lg bg-slate-900/80 border border-slate-800 p-1.5 text-center">
+        <div className="grid grid-cols-3 gap-1.5 rounded-lg bg-slate-50 border border-slate-200 p-1.5 text-center">
           <div>
-            <span className="block text-[8px] font-bold text-slate-500 uppercase">Orig ETA</span>
-            <span className="text-[10px] font-mono font-bold text-slate-400">
+            <span className="block text-[8px] font-bold text-slate-400 uppercase">Orig ETA</span>
+            <span className="text-[10px] font-mono font-bold text-slate-500">
               {formatETA(originalEtaSec)}
             </span>
           </div>
           <div>
-            <span className="block text-[8px] font-bold text-slate-500 uppercase">Updated ETA</span>
-            <span className={`text-[10px] font-mono font-black ${delaySec > 0 ? "text-orange-400" : "text-emerald-400"}`}>
+            <span className="block text-[8px] font-bold text-slate-400 uppercase">Updated ETA</span>
+            <span className={`text-[10px] font-mono font-black ${delaySec > 0 ? "text-amber-600" : "text-emerald-600"}`}>
               {formatETA(updatedEtaSec)}
             </span>
           </div>
           <div>
-            <span className="block text-[8px] font-bold text-slate-500 uppercase">Delay</span>
-            <span className={`text-[10px] font-mono font-bold ${delaySec > 0 ? "text-orange-400 font-black animate-pulse" : "text-slate-400"}`}>
+            <span className="block text-[8px] font-bold text-slate-400 uppercase">Delay</span>
+            <span className={`text-[10px] font-mono font-bold ${delaySec > 0 ? "text-amber-600 font-black animate-pulse" : "text-slate-500"}`}>
               {delaySec > 0 ? `+${delaySec}s` : "0s"}
             </span>
           </div>
         </div>
       </div>
 
-      <div className="border-t border-slate-800/80 mx-3.5" />
+      <div className="border-t border-slate-100 mx-3.5" />
 
       {/* Customer Status Message */}
-      <div className="px-3.5 py-2.5 bg-slate-950/40 rounded-b-xl">
-        <span className="text-[8.5px] text-slate-500 uppercase font-extrabold tracking-wider block mb-1">
+      <div className="px-3.5 py-2.5 bg-slate-50/80 rounded-b-xl border-t border-slate-100">
+        <span className="text-[8.5px] text-slate-400 uppercase font-extrabold tracking-wider block mb-1">
           Customer Notification Status
         </span>
         <div className="flex items-start gap-1.5">
-          <svg className="w-3.5 h-3.5 text-cyan-400 mt-0.5 shrink-0" viewBox="0 0 20 20" fill="currentColor">
+          <svg className="w-3.5 h-3.5 text-blue-600 mt-0.5 shrink-0" viewBox="0 0 20 20" fill="currentColor">
             <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
           </svg>
-          <p className="text-[10px] text-slate-300 font-sans leading-snug italic">
+          <p className="text-[10px] text-slate-600 font-sans leading-snug italic">
             "{customerMessage}"
           </p>
         </div>

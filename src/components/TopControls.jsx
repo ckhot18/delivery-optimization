@@ -13,39 +13,39 @@ export default function TopControls({
   const completedCount = totalDeliveries - incompleteDeliveries;
 
   return (
-    <header className="flex flex-col gap-3 border-b border-slate-800/80 bg-[#080c16]/95 px-5 py-3 backdrop-blur md:flex-row md:items-center md:justify-between z-10">
-      <div className="flex items-center gap-3">
-        <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-cyan-500/30 bg-cyan-500/10 text-cyan-300">
-          <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+    <header className="flex flex-col gap-3 border-b border-black/5 bg-white/80 backdrop-blur-xl px-6 py-4 md:flex-row md:items-center md:justify-between z-10 shrink-0">
+      <div className="flex items-center gap-3.5">
+        <div className="flex h-11 w-11 items-center justify-center rounded-[14px] bg-[#007AFF] text-white shadow-sm">
+          <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <path d="M12 2L2 7l10 5 10-5-10-5z" />
             <path d="M2 17l10 5 10-5" />
             <path d="M2 12l10 5 10-5" />
           </svg>
         </div>
         <div>
-          <div className="flex items-center gap-2">
-            <h1 className="text-lg font-black tracking-tight text-white font-mono">
-              AI Delivery Optimizer
+          <div className="flex items-center gap-2.5">
+            <h1 className="text-xl font-semibold tracking-tight text-neutral-900">
+              Fleet Logistics Dispatcher
             </h1>
-            <span className="rounded border border-cyan-400/40 bg-cyan-400/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-cyan-300">
-              Phase 4
+            <span className="rounded-full bg-blue-50 px-2 py-0.5 text-[11px] font-semibold text-[#007AFF]">
+              Active Fleet
             </span>
           </div>
-          <p className="text-[11px] text-slate-400">Constraint-Aware Global Fleet Optimizer</p>
+          <p className="text-[13px] font-medium text-neutral-500 mt-0.5">Autonomous Real-Time Optimizer</p>
         </div>
       </div>
 
-      <div className="flex flex-wrap items-center gap-3">
-        <div className="flex items-center rounded-lg border border-slate-800 bg-slate-900/90 p-0.5">
-          <span className="px-2 text-[10px] font-bold uppercase tracking-wider text-slate-400">Speed:</span>
+      <div className="flex flex-wrap items-center gap-4">
+        <div className="flex items-center rounded-full bg-neutral-100 p-1 ring-1 ring-black/5">
+          <span className="px-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500">Speed</span>
           {[1, 2, 4].map((speed) => (
             <button
               key={speed}
               onClick={() => onChangeSpeed(speed)}
-              className={`rounded-md px-2.5 py-1 text-xs font-mono font-bold transition-all ${
+              className={`rounded-full px-4 py-1.5 text-[13px] font-semibold transition-all ${
                 speedMultiplier === speed
-                  ? "bg-cyan-500 text-black shadow-[0_0_10px_rgba(6,182,212,0.4)]"
-                  : "text-slate-400 hover:text-white"
+                  ? "bg-white text-neutral-900 shadow-sm ring-1 ring-black/5"
+                  : "text-neutral-500 hover:text-neutral-900"
               }`}
             >
               {speed}x
@@ -53,25 +53,25 @@ export default function TopControls({
           ))}
         </div>
 
-        <div className="hidden sm:flex items-center gap-2 rounded-lg border border-slate-800 bg-slate-900/90 px-3 py-1.5 text-xs font-mono">
-          <span className="text-slate-400 text-[11px]">Orders:</span>
-          <span className="font-bold text-emerald-300">{completedCount}/{totalDeliveries}</span>
-          <div className="h-1.5 w-16 overflow-hidden rounded-full bg-slate-800">
+        <div className="hidden sm:flex items-center gap-2.5 rounded-full bg-neutral-50 px-4 py-2 ring-1 ring-black/5 text-[13px]">
+          <span className="text-neutral-500 font-medium">Delivered</span>
+          <span className="font-semibold text-neutral-900 font-mono text-[14px] leading-none">{completedCount}/{totalDeliveries}</span>
+          <div className="h-2 w-24 overflow-hidden rounded-full bg-neutral-200 ml-1">
             <div
-              className="h-full bg-emerald-400 transition-all duration-300"
+              className="h-full bg-[#34C759] transition-all duration-500 ease-out"
               style={{ width: `${totalDeliveries > 0 ? (completedCount / totalDeliveries) * 100 : 0}%` }}
             />
           </div>
         </div>
 
-        <div className="flex items-center gap-2 rounded-lg border border-slate-800 bg-slate-900/90 px-3 py-1.5 text-xs font-semibold">
+        <div className="flex items-center gap-2 rounded-full bg-neutral-50 px-4 py-2 ring-1 ring-black/5 text-[13px]">
           <span
-            className={`h-2 w-2 rounded-full transition-all ${
-              running ? "bg-emerald-400 shadow-[0_0_10px_#34d399] animate-pulse" : "bg-amber-400/60"
+            className={`h-2.5 w-2.5 rounded-full ${
+              running ? "bg-[#34C759] animate-pulse" : "bg-neutral-400"
             }`}
           />
-          <span className={running ? "text-emerald-300 text-[10px] font-bold uppercase" : "text-amber-300 text-[10px] font-bold uppercase"}>
-            {running ? "Live" : hasStarted ? "Paused" : "Ready"}
+          <span className="font-semibold text-neutral-800">
+            {running ? "Running" : hasStarted ? "Paused" : "Standby"}
           </span>
         </div>
 
@@ -79,35 +79,38 @@ export default function TopControls({
           <button
             onClick={onStart}
             disabled={incompleteDeliveries === 0}
-            className="flex items-center gap-1.5 rounded-lg border border-emerald-500/50 bg-emerald-600/20 px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider text-emerald-200 transition-all hover:bg-emerald-600/30 hover:border-emerald-400 active:scale-95 disabled:opacity-40"
+            className="flex items-center gap-2 rounded-full bg-[#007AFF] px-5 py-2 text-[14px] font-semibold text-white shadow-sm transition-all hover:bg-[#006ee6] active:scale-95 disabled:opacity-40"
           >
-            <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3" /></svg>
-            Start
+            <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3" /></svg>
+            Dispatch Fleet
           </button>
         ) : running ? (
           <button
             onClick={onPause}
-            className="flex items-center gap-1.5 rounded-lg border border-amber-500/50 bg-amber-600/20 px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider text-amber-200 transition-all hover:bg-amber-600/30 hover:border-amber-400 active:scale-95"
+            className="flex items-center gap-2 rounded-full bg-[#FF9500] px-5 py-2 text-[14px] font-semibold text-white shadow-sm transition-all hover:bg-[#e68600] active:scale-95"
           >
-            <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" /><rect x="14" y="4" width="4" height="16" /></svg>
+            <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1" /><rect x="14" y="4" width="4" height="16" rx="1" /></svg>
             Pause
           </button>
         ) : (
           <button
             onClick={onResume}
             disabled={incompleteDeliveries === 0}
-            className="flex items-center gap-1.5 rounded-lg border border-cyan-500/50 bg-cyan-600/20 px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider text-cyan-200 transition-all hover:bg-cyan-600/30 hover:border-cyan-400 active:scale-95 disabled:opacity-40"
+            className="flex items-center gap-2 rounded-full bg-[#007AFF] px-5 py-2 text-[14px] font-semibold text-white shadow-sm transition-all hover:bg-[#006ee6] active:scale-95 disabled:opacity-40"
           >
-            <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3" /></svg>
+            <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3" /></svg>
             Resume
           </button>
         )}
 
         <button
           onClick={onReset}
-          className="flex items-center gap-1.5 rounded-lg border border-slate-700 bg-slate-900/90 px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider text-slate-300 transition-all hover:bg-slate-800 hover:text-white active:scale-95"
+          className="flex items-center gap-2 rounded-full bg-white ring-1 ring-black/5 px-4 py-2 text-[14px] font-semibold text-neutral-700 shadow-sm transition-all hover:bg-neutral-50 hover:text-neutral-900 active:scale-95"
         >
-          <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" /><path d="M3 3v5h5" /></svg>
+          <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+            <path d="M3 3v5h5" />
+          </svg>
           Reset
         </button>
       </div>

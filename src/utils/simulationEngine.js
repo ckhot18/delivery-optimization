@@ -580,7 +580,7 @@ export function getSelectionDetails(selectedItem, simulation) {
         { label: "Priority", value: delivery?.priority || "N/A" },
         { label: "Carrier", value: delivery?.assignedVehicleId || "Unassigned" },
       ],
-      actionTip: "Use Emergency or Move Delivery to target this drop-off.",
+      actionTip: "Select road or trigger vehicle breakdown to test real-time rerouting.",
     };
   }
 

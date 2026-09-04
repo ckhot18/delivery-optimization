@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import DispatcherLogs from "./components/DispatcherLogs";
 import LogisticsMap from "./components/LogisticsMap";
 import MetricsPanel from "./components/MetricsPanel";
@@ -11,8 +11,6 @@ import {
   handleBlockRoad,
   handleUnblockRoad,
   handleVehicleBreakdown,
-  handleEmergencyDelivery,
-  handleMoveDelivery,
 } from "./simulation/incidentHandlers";
 
 export default function App() {
@@ -114,16 +112,8 @@ export default function App() {
     setSimulation((current) => handleVehicleBreakdown(current, vehicleId, severity));
   }
 
-  function onEmergencyDeliveryAction(locationId) {
-    setSimulation((current) => handleEmergencyDelivery(current, locationId));
-  }
-
-  function onMoveDeliveryAction(deliveryId) {
-    setSimulation((current) => handleMoveDelivery(current, deliveryId));
-  }
-
   return (
-    <div className="flex h-screen flex-col overflow-hidden bg-[#050811] text-slate-100 antialiased selection:bg-cyan-500 selection:text-black">
+    <div className="flex h-screen flex-col overflow-hidden bg-[#f5f5f7] text-neutral-900 antialiased font-sans selection:bg-blue-600 selection:text-white">
       {/* Header */}
       <TopControls
         running={simulation.running}
@@ -140,11 +130,11 @@ export default function App() {
       />
 
       {/* Main */}
-      <main className="flex flex-1 overflow-hidden p-3 gap-3 flex-col lg:flex-row">
+      <main className="flex flex-1 overflow-hidden p-4 gap-4 flex-col lg:flex-row max-w-[1920px] mx-auto w-full">
         {/* Map + Metrics */}
-        <div className="flex flex-col flex-1 h-full min-h-[400px] overflow-hidden rounded-xl border border-slate-800/80">
+        <div className="flex flex-col flex-1 h-full min-h-[400px] overflow-hidden rounded-[24px] bg-white shadow-sm ring-1 ring-black/5 border border-black/5">
           <MetricsPanel simulation={simulation} hasStarted={hasStarted} />
-          <div className="flex-1 overflow-hidden">
+          <div className="flex-1 overflow-hidden relative">
             <LogisticsMap
               vehicles={simulation.vehicles}
               deliveries={simulation.deliveries}
@@ -157,15 +147,13 @@ export default function App() {
         </div>
 
         {/* Dispatcher Panel */}
-        <div className="w-full lg:w-[340px] xl:w-[380px] h-full flex flex-col shrink-0">
+        <div className="w-full lg:w-[400px] h-full flex flex-col shrink-0">
           <DispatcherLogs
             logs={simulation.logs}
             selectedItem={selectedItem}
             simulation={simulation}
             onBlockRoad={onBlockRoadAction}
             onVehicleBreakdown={onVehicleBreakdownAction}
-            onEmergencyDelivery={onEmergencyDeliveryAction}
-            onMoveDelivery={onMoveDeliveryAction}
             onClearSelection={() => setSelectedItem(null)}
           />
         </div>

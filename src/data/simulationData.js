@@ -148,7 +148,6 @@ export const MAP_DATA = {
     { id: "C_R1_C3", label: "C Upper Cross", x: 380, y: 430 },
     { id: "C_R1_C4", label: "C Riverbank North", x: 490, y: 430 },
 
-    { id: "C_R2_C1", label: "C Mid West", x: 130, y: 530 },
     { id: "C_R2_C2", label: "Southwest Store Plaza", x: 230, y: 530 },
     { id: "C_R2_C3", label: "C Center Cross", x: 380, y: 530 },
     { id: "C_S_BRIDGE", label: "C South Bridge", x: 490, y: 530 },
@@ -175,35 +174,35 @@ export const MAP_DATA = {
     { id: "D_HIGHWAY_EXIT", label: "Overpass Flyover Exit", x: 1080, y: 640 },
   ],
 
-  // Specific Delivery & Pickup Locations
+  // Specific Delivery & Pickup Locations with Realistic Numbered Street Addresses
   locations: [
-    // Cluster A
-    { id: "LOC-A1", nodeId: "A_R1_C2", label: "Green Clinic", type: "customer", clusterId: "CL-A" },
-    { id: "LOC-A2", nodeId: "A_R1_C4", label: "Avenue Homes 4", type: "customer", clusterId: "CL-A" },
-    { id: "LOC-A3", nodeId: "A_R2_C2", label: "Northwest Housing", type: "customer", clusterId: "CL-A" },
-    { id: "LOC-A4", nodeId: "A_R3_C1", label: "West Meadow Homes", type: "customer", clusterId: "CL-A" },
-    { id: "LOC-A5", nodeId: "A_R3_C3", label: "Parkside Residences", type: "customer", clusterId: "CL-A" },
+    // Cluster A (Northwest)
+    { id: "LOC-A1", nodeId: "A_R1_C2", label: "104 River Clinic", type: "customer", clusterId: "CL-A" },
+    { id: "LOC-A2", nodeId: "A_R1_C4", label: "142 Oak Ave", type: "customer", clusterId: "CL-A" },
+    { id: "LOC-A3", nodeId: "A_R2_C2", label: "205 Maple St", type: "customer", clusterId: "CL-A" },
+    { id: "LOC-A4", nodeId: "A_R3_C1", label: "312 Pine Rd", type: "customer", clusterId: "CL-A" },
+    { id: "LOC-A5", nodeId: "A_R3_C3", label: "418 Parkside Blvd", type: "customer", clusterId: "CL-A" },
 
-    // Cluster B
-    { id: "LOC-B1", nodeId: "B_R1_C2", label: "Northeast Apartments", type: "customer", clusterId: "CL-B" },
-    { id: "LOC-B2", nodeId: "B_R1_C4", label: "Block 12 Residences", type: "customer", clusterId: "CL-B" },
-    { id: "LOC-B_STORE", nodeId: "B_R2_C3", label: "East Mart & Pickup", type: "store", clusterId: "CL-B" },
-    { id: "LOC-B3", nodeId: "B_R2_C1", label: "B Riverfront Flat", type: "customer", clusterId: "CL-B" },
-    { id: "LOC-B4", nodeId: "B_R3_C3", label: "Northeast Metro Court", type: "customer", clusterId: "CL-B" },
+    // Cluster B (Northeast)
+    { id: "LOC-B1", nodeId: "B_R1_C2", label: "520 N High St", type: "customer", clusterId: "CL-B" },
+    { id: "LOC-B2", nodeId: "B_R1_C4", label: "614 Elm Court", type: "customer", clusterId: "CL-B" },
+    { id: "LOC-B_STORE", nodeId: "B_R2_C3", label: "700 Market Plaza", type: "store", clusterId: "CL-B" },
+    { id: "LOC-B3", nodeId: "B_R2_C1", label: "826 Riverfront Way", type: "customer", clusterId: "CL-B" },
+    { id: "LOC-B4", nodeId: "B_R3_C3", label: "915 Metro Court", type: "customer", clusterId: "CL-B" },
 
-    // Cluster C
-    { id: "LOC-C1", nodeId: "C_R1_C2", label: "Southwest Care Center", type: "customer", clusterId: "CL-C" },
-    { id: "LOC-C_STORE", nodeId: "C_R2_C2", label: "Metro Mart SW", type: "store", clusterId: "CL-C" },
-    { id: "LOC-C2", nodeId: "C_R1_C4", label: "Riverview Homes C", type: "customer", clusterId: "CL-C" },
-    { id: "LOC-C3", nodeId: "C_R2_C3", label: "Southwest Highrise", type: "customer", clusterId: "CL-C" },
-    { id: "LOC-C4", nodeId: "C_R3_C3", label: "South Industrial Unit", type: "customer", clusterId: "CL-C" },
+    // Cluster C (Southwest)
+    { id: "LOC-C1", nodeId: "C_R1_C2", label: "112 W Care Clinic", type: "customer", clusterId: "CL-C" },
+    { id: "LOC-C_STORE", nodeId: "C_R2_C2", label: "240 Commercial Ave", type: "store", clusterId: "CL-C" },
+    { id: "LOC-C2", nodeId: "C_R1_C4", label: "330 Bayview Terr", type: "customer", clusterId: "CL-C" },
+    { id: "LOC-C3", nodeId: "C_R2_C3", label: "420 Horizon Tower", type: "customer", clusterId: "CL-C" },
+    { id: "LOC-C4", nodeId: "C_R3_C3", label: "510 Industrial Pkwy", type: "customer", clusterId: "CL-C" },
 
-    // Cluster D
-    { id: "LOC-D1", nodeId: "D_R1_C2", label: "Southeast Shelter", type: "customer", clusterId: "CL-D" },
-    { id: "LOC-D_STORE", nodeId: "D_R2_C2", label: "Express Pickup Point", type: "store", clusterId: "CL-D" },
-    { id: "LOC-D2", nodeId: "D_R1_C3", label: "Harbor View Flats", type: "customer", clusterId: "CL-D" },
-    { id: "LOC-D3", nodeId: "D_R2_C3", label: "Highway Green Condos", type: "customer", clusterId: "CL-D" },
-    { id: "LOC-D4", nodeId: "D_R3_C3", label: "Eastport Residences", type: "customer", clusterId: "CL-D" },
+    // Cluster D (Southeast)
+    { id: "LOC-D1", nodeId: "D_R1_C2", label: "128 Shelter Post", type: "customer", clusterId: "CL-D" },
+    { id: "LOC-D_STORE", nodeId: "D_R2_C2", label: "260 Harbor Mart", type: "store", clusterId: "CL-D" },
+    { id: "LOC-D2", nodeId: "D_R1_C3", label: "375 Pierpoint St", type: "customer", clusterId: "CL-D" },
+    { id: "LOC-D3", nodeId: "D_R2_C3", label: "480 Greenview Way", type: "customer", clusterId: "CL-D" },
+    { id: "LOC-D4", nodeId: "D_R3_C3", label: "590 Terminal Blvd", type: "customer", clusterId: "CL-D" },
   ],
 
   // Road graph segments
@@ -276,18 +275,16 @@ export const MAP_DATA = {
     { id: "RB-16", from: "B_R3_C2", to: "B_R3_C3", type: "cluster", label: "Metro Court Avenue" },
     { id: "RB-17", from: "B_R3_C3", to: "B_R3_C4", type: "cluster", label: "B Boundary Road" },
 
-    // Cluster C Roads (including Warehouse connectivity)
+    // Cluster C Roads (including Warehouse connectivity) - Cleaned of redundant lower-left spurs
     { id: "RC-01", from: "C_R1_C1", to: "C_R1_C2", type: "cluster", label: "Care Center Link" },
     { id: "RC-02", from: "C_R1_C2", to: "C_R1_C3", type: "cluster", label: "C Upper Avenue" },
     { id: "RC-03", from: "C_R1_C3", to: "C_R1_C4", type: "cluster", label: "Riverview Link C" },
-    { id: "RC-04", from: "C_R1_C1", to: "C_R2_C1", type: "cluster", label: "C West Parkway" },
     { id: "RC-05", from: "C_R1_C2", to: "C_R2_C2", type: "cluster", label: "Metro Mart SW Way" },
     { id: "RC-06", from: "C_R1_C3", to: "C_R2_C3", type: "cluster", label: "C Center Link" },
     { id: "RC-07", from: "C_R1_C4", to: "C_S_BRIDGE", type: "arterial", label: "South Bridge Approach C" },
-    { id: "RC-08", from: "C_R2_C1", to: "C_R2_C2", type: "cluster", label: "Store Plaza C" },
     { id: "RC-09", from: "C_R2_C2", to: "C_R2_C3", type: "cluster", label: "Highrise Access C" },
     { id: "RC-10", from: "C_R2_C3", to: "C_S_BRIDGE", type: "cluster", label: "Bridge Connector C" },
-    { id: "RC-11", from: "C_R2_C1", to: "HUB_WH", type: "arterial", label: "Warehouse West Gate" },
+    { id: "RC-11", from: "HUB_WH", to: "C_R2_C2", type: "arterial", label: "Warehouse North Connector" },
     { id: "RC-12", from: "HUB_WH", to: "C_R3_C2", type: "arterial", label: "Warehouse Main Exit" },
     { id: "RC-13", from: "C_R2_C2", to: "C_R3_C2", type: "cluster", label: "Dock Access Road" },
     { id: "RC-14", from: "C_R3_C2", to: "C_R3_C3", type: "cluster", label: "South Industrial Way" },
@@ -404,14 +401,14 @@ export const MAP_DATA = {
     },
   ],
 
-  // Exactly 7 strategic deliveries across the city
+  // Exactly 7 strategic deliveries across the city with realistic addresses
   deliveries: [
-    { id: "DEL-01", destination: "A_R1_C2", locationId: "LOC-A1", weight: 8, priority: "CRITICAL", title: "Emergency Blood Units", recipient: "Green Clinic (Cluster A)" },
-    { id: "DEL-02", destination: "B_R2_C3", locationId: "LOC-B_STORE", weight: 85, priority: "CRITICAL", title: "Medical Oxygen Cylinders", recipient: "East Mart (Cluster B)" },
-    { id: "DEL-03", destination: "D_R1_C2", locationId: "LOC-D1", weight: 14, priority: "HIGH", title: "Emergency Power Generators", recipient: "Southeast Shelter (Cluster D)" },
-    { id: "DEL-04", destination: "C_R2_C2", locationId: "LOC-C_STORE", weight: 45, priority: "HIGH", title: "Water Purification Units", recipient: "Metro Mart SW (Cluster C)" },
-    { id: "DEL-05", destination: "B_R1_C4", locationId: "LOC-B2", weight: 60, priority: "HIGH", title: "Rescue Gear Kits", recipient: "Block 12 Residences (Cluster B)" },
-    { id: "DEL-06", destination: "A_R3_C3", locationId: "LOC-A5", weight: 12, priority: "NORMAL", title: "First Aid Rations", recipient: "Parkside Residences (Cluster A)" },
-    { id: "DEL-07", destination: "C_R1_C4", locationId: "LOC-C2", weight: 20, priority: "NORMAL", title: "Comms Satellite Terminals", recipient: "Riverview Homes C (Cluster C)" },
+    { id: "DEL-01", destination: "A_R1_C2", locationId: "LOC-A1", weight: 8, priority: "CRITICAL", title: "Emergency Blood Units", recipient: "104 River Clinic (Cluster A)" },
+    { id: "DEL-02", destination: "B_R2_C3", locationId: "LOC-B_STORE", weight: 85, priority: "CRITICAL", title: "Medical Oxygen Cylinders", recipient: "700 Market Plaza Store (Cluster B)" },
+    { id: "DEL-03", destination: "D_R1_C2", locationId: "LOC-D1", weight: 14, priority: "HIGH", title: "Emergency Power Generators", recipient: "128 Shelter Post (Cluster D)" },
+    { id: "DEL-04", destination: "C_R2_C2", locationId: "LOC-C_STORE", weight: 45, priority: "HIGH", title: "Water Purification Units", recipient: "240 Commercial Ave Store (Cluster C)" },
+    { id: "DEL-05", destination: "B_R1_C4", locationId: "LOC-B2", weight: 60, priority: "HIGH", title: "Rescue Gear Kits", recipient: "614 Elm Court (Cluster B)" },
+    { id: "DEL-06", destination: "A_R3_C3", locationId: "LOC-A5", weight: 12, priority: "NORMAL", title: "First Aid Rations", recipient: "418 Parkside Blvd (Cluster A)" },
+    { id: "DEL-07", destination: "C_R1_C4", locationId: "LOC-C2", weight: 20, priority: "NORMAL", title: "Comms Satellite Terminals", recipient: "330 Bayview Terrace (Cluster C)" },
   ],
 };

@@ -2,16 +2,18 @@ import { computeVehicleETA, formatETA } from "../utils/fleetOptimizer.js";
 
 function Stat({ label, value, sub, color }) {
   return (
-    <div className="flex flex-col items-center justify-center min-w-0">
-      <span className={`text-base font-black font-mono leading-none ${color || "text-white"}`}>{value}</span>
-      {sub && <span className="text-[8px] text-slate-500 font-mono mt-0.5">{sub}</span>}
-      <span className="text-[8px] text-slate-500 uppercase tracking-wider mt-0.5">{label}</span>
+    <div className="flex flex-col items-start justify-center min-w-0 px-2 py-1">
+      <span className="text-[10px] text-neutral-500 font-bold uppercase tracking-wider mb-1.5">{label}</span>
+      <div className="flex items-baseline gap-1">
+        <span className={`text-[18px] font-semibold font-mono tracking-tight leading-none ${color || "text-neutral-900"}`}>{value}</span>
+        {sub && <span className="text-[12px] text-neutral-400 font-medium font-mono">{sub}</span>}
+      </div>
     </div>
   );
 }
 
 function Divider() {
-  return <div className="w-px h-6 bg-slate-800 shrink-0" />;
+  return <div className="w-px h-10 bg-black/5 shrink-0 mx-1" />;
 }
 
 export default function MetricsPanel({ simulation, hasStarted }) {
@@ -48,51 +50,51 @@ export default function MetricsPanel({ simulation, hasStarted }) {
   const activeVehicles = vehicles.filter((v) => v.status !== "DISABLED").length;
 
   const score = m.optimizationScore ?? 100;
-  const scoreColor = score >= 80 ? "text-emerald-300" : score >= 50 ? "text-amber-300" : "text-red-400";
+  const scoreColor = score >= 80 ? "text-[#34C759]" : score >= 50 ? "text-[#FF9500]" : "text-[#FF3B30]";
 
   const before = m.beforeSnapshot;
   const after = m.afterSnapshot;
   const showDiff = before && (m.totalReroutes > 0 || unreachable > 0);
 
   return (
-    <div className="border-b border-slate-800/60 bg-slate-950/80 px-4 py-2">
+    <div className="border-b border-black/5 bg-white/50 backdrop-blur-md px-6 py-4">
       {/* Main metrics row */}
-      <div className="flex items-center gap-3 overflow-x-auto scrollbar-none">
-        <Stat label="ETA" value={etaStr} color="text-cyan-300" />
+      <div className="flex items-center gap-4 overflow-x-auto scrollbar-none">
+        <Stat label="ETA" value={etaStr} color="text-[#007AFF]" />
         <Divider />
-        <Stat label="Distance" value={`${(totalDist / 100).toFixed(1)}km`} color="text-slate-200" />
+        <Stat label="Distance" value={`${(totalDist / 100).toFixed(1)}km`} color="text-neutral-800" />
         <Divider />
-        <Stat label="Fuel" value={`${avgFuel}%`} color={avgFuel < 20 ? "text-red-400" : avgFuel < 40 ? "text-amber-300" : "text-emerald-300"} />
+        <Stat label="Fuel" value={`${avgFuel}%`} color={avgFuel < 20 ? "text-[#FF3B30]" : avgFuel < 40 ? "text-[#FF9500]" : "text-[#34C759]"} />
         <Divider />
-        <Stat label="Delivered" value={`${completed}/${total}`} color="text-emerald-300" />
+        <Stat label="Delivered" value={`${completed}`} sub={`/ ${total}`} color="text-[#34C759]" />
         <Divider />
-        <Stat label="Critical ?" value={`${criticalDone}/${criticalTotal}`} color={criticalDone === criticalTotal ? "text-emerald-300" : "text-amber-300"} />
+        <Stat label="Critical" value={`${criticalDone}`} sub={`/ ${criticalTotal}`} color={criticalDone === criticalTotal ? "text-[#34C759]" : "text-[#FF9500]"} />
         <Divider />
-        <Stat label="Fleet" value={`${activeVehicles}/3`} color={activeVehicles < 3 ? "text-amber-300" : "text-slate-200"} />
+        <Stat label="Active Fleet" value={`${activeVehicles}`} sub="/ 3" color={activeVehicles < 3 ? "text-[#FF9500]" : "text-neutral-800"} />
         <Divider />
-        <Stat label="Reroutes" value={m.totalReroutes || 0} color={(m.totalReroutes || 0) > 0 ? "text-amber-300" : "text-slate-400"} />
+        <Stat label="Reroutes" value={m.totalReroutes || 0} color={(m.totalReroutes || 0) > 0 ? "text-[#FF9500]" : "text-neutral-400"} />
         <Divider />
-        <Stat label="Score" value={`${score}`} color={scoreColor} sub="/100" />
+        <Stat label="Score" value={`${score}`} color={scoreColor} sub="/ 100" />
         {unreachable > 0 && (
           <>
             <Divider />
-            <Stat label="Unreachable" value={unreachable} color="text-red-400" />
+            <Stat label="Unreachable" value={unreachable} color="text-[#FF3B30]" />
           </>
         )}
       </div>
 
       {/* Before / After disruption diff */}
       {showDiff && before && (
-        <div className="mt-2 flex items-center gap-3 text-[9px] font-mono rounded-md border border-slate-800 bg-slate-900/50 px-2.5 py-1.5">
-          <span className="text-slate-500 uppercase font-bold shrink-0">Disruption Impact</span>
-          <span className="text-amber-300">Reroutes: +{m.totalReroutes - (before.reroutes || 0)}</span>
+        <div className="mt-4 flex items-center gap-4 text-[12px] font-mono rounded-xl bg-[#F5F5F7] px-4 py-2.5 text-neutral-600">
+          <span className="text-neutral-900 uppercase font-bold text-[10px] tracking-wider shrink-0">Disruption Impact</span>
+          <span className="text-[#FF9500] font-semibold">Reroutes: +{m.totalReroutes - (before.reroutes || 0)}</span>
           {after && (
-            <span className={after.optimizationScore >= before.optimizationScore ? "text-emerald-300" : "text-red-400"}>
-              Score: {before.optimizationScore} ? {after.optimizationScore}
+            <span className={after.optimizationScore >= before.optimizationScore ? "text-[#34C759] font-semibold" : "text-[#FF3B30] font-semibold"}>
+              Score: {before.optimizationScore} → {after.optimizationScore}
             </span>
           )}
-          {unreachable > 0 && <span className="text-red-400">Blocked Deliveries: {unreachable}</span>}
-          <span className="text-slate-600 ml-auto">{before.timestamp}</span>
+          {unreachable > 0 && <span className="text-[#FF3B30] font-semibold">Blocked: {unreachable}</span>}
+          <span className="text-neutral-400 ml-auto">{before.timestamp}</span>
         </div>
       )}
     </div>
